@@ -66,7 +66,7 @@ def longestRepeatedSubstring(str):
  
 #%% versions and parameters
 n_iter = 6
-story_index = 2  # Monkey', 'Tunnel', 'Pieman'
+story_index = 1 # Monkey', 'Tunnel', 'Pieman'
 version_index = 1 # 'long ' ,''
 iteration  = 3
 padding = 0# 512 # added for tunnel...
