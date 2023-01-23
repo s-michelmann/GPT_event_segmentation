@@ -149,7 +149,7 @@ def longestRepeatedSubstring(str):
 def nan_helper(y):
     return np.isnan(y), lambda z: z.nonzero()[0]
 #%% versions and parameters
-#for si in range(3):
+
 
 story_index = 0 # Monkey', 'Tunnel', 'Pieman'
 version_index = 0 # 'long ' ,''
@@ -177,13 +177,7 @@ for iteration in range(n_iter):
     boundary_vector_gpt = ol.load_bound_vec(iteration)
     events = ol.load_event_list(iteration)
     responses = ol.load_response_list(iteration)
-    
 
-    
-    # match the time axes with DTW
-    
-    # pick an iteration (aggregate later)
-  #  iteration = 0
     
     NL_probs  = []
     TOK_items  = []
@@ -412,10 +406,7 @@ nans, x = nan_helper(log_bps)
 log_bps = np.log(bound_dat)
 log_bps[nans] = np.interp(x(nans), x(~nans), log_bps[~nans])
 bound_dat = sp.stats.zscore(log_bps)
-#%% note: 
-    # DO A Z-score of the log-transformed probability instead!
-    # set zeros to nan before 
-    # maybe run the phase shuffling to get random x-correlograms
+
 #%% cross correlate
 corr = sp.signal.correlate(bound_dat, time_course_fin, mode = 'same')/len(time_course_fin)
 p = sp.stats.pearsonr(bound_dat, time_course_fin, alternative='two-sided')
@@ -470,7 +461,7 @@ fig.savefig('PiemanShortXcorr.svg')
 sns.set_style('white')
 sns.set_context("paper", font_scale = 2)
 
-window_width = 50000 # 20 seconds
+window_width = 50000 
 
 xdata = lags[
     np.where(np.logical_and(lags>-window_width , lags <window_width))]/1000
@@ -488,15 +479,6 @@ ax.set_ylabel("Pearson r")
 sns.despine(right = True)
 fig.show()
 fig.savefig('MonkeyLongXcorr.svg')
-
-
-#%% cross correlate in numpy with normalization
-# import statsmodels.api as sm
-# #%%
-# sig1 = bound_dat
-# sig2 = time_course_fin
-# corr2 = sm.tsa.stattools.ccf(sig1, sig2, adjusted=False)
-# corr2.argmax()
 
 
 
