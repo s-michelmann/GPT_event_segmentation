@@ -137,7 +137,7 @@ def get_human_boundary_vector(sentence_bounds, bounds_s):
 
 #%% versions and parameters
 #for si in range(3):
-story_index = 0 # Monkey', 'Pieman'
+story_index = 1 # Monkey', 'Pieman'
 # version_index = 1 # 'long ' ,''
 n_iter = 6
 stories = ['Monkey', 'Pieman']
@@ -198,11 +198,7 @@ for indx, bar in enumerate(bound_ars):
     #loop through subjects
     for sj in np.arange(np.shape(bar)[0]):
         # get the event boundaries in seconds
-        if story  == 'Tunnel':
-            esec = np.asarray(np.where(np.array(bar[sj,])))/10 + sect_offset
-
-        else:
-            esec = np.asarray(np.where(np.array(bar[sj,])))/1000 + sect_offset
+        esec = np.asarray(np.where(np.array(bar[sj,])))/1000 + sect_offset
         
         # somehow the output is in an array
         bounds = esec[0]
@@ -358,188 +354,6 @@ for iteration in range(n_iter):
         scatter=True, fit_reg=False, marker='o',
                 scatter_kws={"s": 10}, color = 'red', ax = ax).set(
                     title= story + ': Distance to average, set '+ str(b_ind+1))# fs = 10  # fontsize
-                
-ax.set(xlabel='', ylabel='average hamming distance')# pos = [1]
-
-#%% for Pieman, draw split violins:
-
-sns.set_style('white')
-sns.set_context("paper", font_scale = 2)
-    
-import pandas as pd
-
-df1 = pd.DataFrame({'Story': 'Pieman', 'Run': 'run 1' , 'hamming distance': subject_dist_arrays_avg[0]})
-df2 = pd.DataFrame({'Story': 'Pieman','Run': 'run 2' , 'hamming distance': subject_dist_arrays_avg[1]})
-
-df = pd.concat((df1, df2), axis = 0)
-
-fig, ax = plt.pyplot.subplots()
-
-sns.violinplot(data=df,x = 'Story', y = "hamming distance",hue = "Run", split=True, linewidth=1,
-                   inner='box', color='lavender', ax = ax)
-
-b_ind = 0;
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst-0.2]), y=np.array(
-        [gpt_dist_arrays_avg[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 4}, color = (53/255, 206/255, 141/255), ax = ax).set(
-                    title= story + ': Distance to consensus')# fs = 10  # fontsize
-
-b_ind = 1;
-                    
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst+0.2]), y=np.array(
-        [gpt_dist_arrays_avg[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 4}, color = (53/255, 206/255, 141/255), ax = ax).set(
-                    title= story + ': Distance to consensus')# fs = 10  # fontsize
-
-b_ind = 0;
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst-0.2]), y=np.array(
-        [gpt_dist_arrays_avg_long[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 4}, color = (244/255, 162/255, 89/255), ax = ax).set(
-                    title= story + ': Distance to consensus')# fs = 10  # fontsize
-
-b_ind = 1;
-                    
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst+0.2]), y=np.array(
-        [gpt_dist_arrays_avg_long[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 4}, color = (244/255, 162/255, 89/255), ax = ax).set(
-                    title= story + ': Distance to consensus')# fs = 10  # fontsize
-
-fig.savefig('PiemanVioAll2.svg')
-
-#%% monkey
-b_ind = 0
-sns.set_style('white')
-sns.set_context("paper", font_scale = 2)
-
-fig, ax = plt.pyplot.subplots()
-
-ax = sns.violinplot(subject_dist_arrays_avg[b_ind], orient='v',
-                   inner='box', jitter=True, color='lavender', ax = ax)
-
-sns.regplot(x=np.array([0]), y=np.array([np.average(subject_dist_arrays_avg[b_ind])]), scatter=True, fit_reg=False, marker='o',
-            scatter_kws={"s": 18},color =  (255/255, 0/255, 0/255),)# fs = 10  # fontsize
-
-
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst-0.2]), y=np.array(
-        [gpt_dist_arrays_avg[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s":  14}, color =  (53/255, 206/255, 141/255), ax = ax).set(
-                    title= story + ': Distance to consensus, set' + str(b_ind+1))# fs = 10  # fontsize
-
-for iteration in range(n_iter):
-    offst = (np.random.rand()-0.5)/4
-    print(offst)
-    sns.regplot(x=np.array([offst-0.2]), y=np.array(
-        [gpt_dist_arrays_avg_long[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 14}, color = (244/255, 162/255, 89/255), ax = ax).set(
-                    title= story + ': Distance to consensus,  set' + str(b_ind+1))# fs = 10  # fontsize
-
-ax.set(xlabel='', ylabel='average hamming distance')# pos = [1]
-
-
-ax.set(xlabel='', ylabel='average hamming distance')# pos = [1]
-
-
-sns.despine(right = True)
-fig.show()
-#%%
-fig.savefig('PiemanVioAll31.svg')
-
-fig.savefig('PiemanVioAll32.svg')
-
-fig.savefig('MonkeyVioAll3.svg')
-#%% this is legacy code: compute the distances pairwise
-#%% END OF SCRIPT #%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% END OF SCRIPT
-#%% 
-
-
-#%% get average distances for each participant
-#! note that the second dimension of input 2 needs to be the subject dimension
-def average_dist(bound1, bounds2):
-    tmpvec = np.zeros(np.shape(bounds2)[1])
-    for sj in np.arange(np.shape(bounds2)[1]):
-        tmpvec[sj] =  sp.spatial.distance.hamming(
-            bound1, bounds2[:,sj], w=None)
-        
-    return np.average(tmpvec)
-subject_dist_arrays = []
-gpt_dist_arrays = []
-
-
-for midx, bound_array in enumerate(bound_arrays):
-    avg_dists = np.zeros(np.shape(bound_array)[1])
-    
-    # index only subpart of the sentenecs for the monkey podcast, because it 
-    # was collected in 4 batches of different subjects
-   
-    for sj in np.arange(np.shape(bound_array)[1]):
-        b_vec = bound_array[:,sj]
-        barr  = np.concatenate(
-            (bound_array[:,0:sj], 
-             bound_array[:,sj+1:]), axis = 1)
-        avg_dists[sj] = average_dist(b_vec,barr)
-    subject_dist_arrays.append(avg_dists)
-    
-    avg_dists_gpt = np.zeros(n_iter)
-    for iteration in range(n_iter): 
-        boundary_vector_gpt = ol.load_bound_vec(iteration)
-        avg_dists_gpt[iteration] = average_dist(
-            boundary_vector_gpt,bound_array)
-    gpt_dist_arrays.append(avg_dists_gpt)
-
-#%%
-b_ind = 1
-T = ttest(
-    gpt_dist_arrays[b_ind], subject_dist_arrays[b_ind])
-
-
-print(array_names[b_ind] + " - The average distance to individual other human raters is: " +str(
-    round(np.average(subject_dist_arrays[b_ind]),3)) +  " +-SD=" + str(
-        round(np.std(subject_dist_arrays[b_ind]),3)) + " for humans and " +str(
-            round(np.average(gpt_dist_arrays[b_ind]),3)) +  " +-SD=" + str(
-                round(np.std(gpt_dist_arrays[b_ind]),3)) + 
-        " for GPT-3 (p = " + str(
-            T["p-val"].to_numpy()) + ") The BF of this difference is " + str(
-                T["BF10"].to_numpy()))
-                
-
-ax = sns.violinplot(subject_dist_arrays[b_ind], orient='v',
-                   inner='points', jitter=True, color='lavender')
-for iteration in range(n_iter):
-    sns.regplot(x=np.array([-0.2]), y=np.array(
-        [gpt_dist_arrays[b_ind][iteration]]), 
-        scatter=True, fit_reg=False, marker='o',
-                scatter_kws={"s": 10}, color = 'red', ax = ax).set(
-                    title=story + ': Distance to others, set ' + str(b_ind+1) )# fs = 10  # fontsize
                 
 ax.set(xlabel='', ylabel='average hamming distance')# pos = [1]
 

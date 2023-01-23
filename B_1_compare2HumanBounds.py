@@ -136,8 +136,9 @@ def get_human_boundary_vector(sentence_bounds, bounds_s):
     
 #%% versions and parameters
 n_iter = 6
+#%%
 story_index = 2  # Monkey', 'Tunnel', 'Pieman'
-version_index =  1 # 'long ' ,''
+version_index =  0 # 'long ' ,''
 vecs = []
 rand_function = get_p_valueShuffle
 for it in range(n_iter):
@@ -202,63 +203,4 @@ for it in range(n_iter):
      # sb.regplot(x=np.array([-0.2]), y=np.array([distance_12]), scatter=True, fit_reg=False, marker='o',
      #             scatter_kws={"s": 10}, color = 'blue', ax = ax)
     ax.set(xlabel='', ylabel='hamming distance')# pos = [1]
-    # #%% compare to the boundaries from the first behavioral run
-    # if story == "Pieman":
-    #     bound_human = boundary_vec1
-    
-    #     bound_machine = boundary_vec
-    #     distance_real = sp.spatial.distance.hamming(bound_human, bound_machine, w=None)
-    
-    
-    #     n_rand = 100000
-    #     rand_dists = np.ones(n_rand,) * np.inf
-    #     for rr in range(n_rand):
-    #         vec2 = bound_machine.copy()
-    #         np.random.shuffle(vec2)
-    #         rand_dists[rr] = sp.spatial.distance.hamming(
-    #             bound_human, vec2, w=None)
-    #     p_val = np.sum(rand_dists <= distance_real)/n_rand
-    #     print('p value = ' + str(p_val))
-    #     ax1 = sb.violinplot(rand_dists, orient='v', inner='points', jitter=True, color='lavender')
-    #     sb.regplot(x=np.array([-0.2]), y=np.array([distance_real]), scatter=True, fit_reg=False, marker='o',
-    #                  scatter_kws={"s": 10}, color = 'red', ax = ax1).set(
-    #                  title='Distance to run 1 bounds. P-val = ' + str(p_val))# fs = 10  # fontsize
-    #      # sb.regplot(x=np.array([-0.2]), y=np.array([distance_12]), scatter=True, fit_reg=False, marker='o',
-    #      #             scatter_kws={"s": 10}, color = 'blue', ax = ax)
-    #     ax1.set(xlabel='', ylabel='hamming distance')# pos = [1]
-    
-    # #%% compare to the boundaries from the second behavioral run
-    # if story == "Pieman":
-        
-    #     bound_human = boundary_vec2
-    #     distance_real = sp.spatial.distance.hamming(bound_human, bound_machine, w=None)
-    
-    #     rand_dists = np.ones(n_rand,) * np.inf
-    #     for rr in range(n_rand):
-    #         vec2 = boundary_vec.copy()
-    #         np.random.shuffle(vec2)
-    #         rand_dists[rr] = sp.spatial.distance.hamming(
-    #             bound_human, vec2, w=None)
-    #     p_val = np.sum(rand_dists <= distance_real)/n_rand
-        
-    #     ax2 = sb.violinplot(rand_dists, orient='v', inner='points', jitter=True, color='lavender')
-    #     sb.regplot(x=np.array([-0.2]), y=np.array([distance_real]), scatter=True, fit_reg=False, marker='o',
-    #                 scatter_kws={"s": 10}, color = 'red', ax = ax2).set(
-    #                     title='Distance to run 2 bounds. P-val = ' + str(p_val))# fs = 10  # fontsize
-    #     # if story == "Pieman":                
-    #     #     sb.regplot(x=np.array([-0.2]), y=np.array([distance_12]), scatter=True, fit_reg=False, marker='o',
-    #     #                 scatter_kws={"s": 10}, color = 'blue', ax = ax).set(
-    #     #                     title='Distance to run 1 bounds (p = '  + str(p_val) +')')# fs = 10  # fontsi
-    #     ax2.set(xlabel='', ylabel='hamming distance')# pos = [1]
-    # # fig, axs = plt.violinplot(rand_dists)
-    
-    # #%%
-    # fig, ax = plt.pyplot.subplots()
-    # ax= sb.lineplot(data=boundary_vec1)
-    # ax1 = sb.lineplot(data=boundary_vec)
-    # ax.lines[0].set_linestyle("dashdot")
-    # ax.lines[1].set_linestyle("dashdot")
 
-tst = sp.spatial.distance.pdist(np.array(vecs), metric=
-                                sp.spatial.distance.hamming)
-max(tst)
